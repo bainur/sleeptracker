@@ -6,6 +6,10 @@ module Api
       end
 
       def follow
+        if follow_params[:followed_user_id].to_i == @current_user.id
+          return render json: { error: "You cannot follow yourself" }, status: :unprocessable_entity
+        end
+
         @follow = @current_user.follows.build(follow_params)
         existing = @current_user.follows.find_by_followed_user_id(follow_params[:followed_user_id])
 
