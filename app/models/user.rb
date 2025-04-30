@@ -7,12 +7,12 @@ class User < ApplicationRecord
   has_many :followed_users, through: :follows, source: :followed_user
 
   def friends_sleep_records
-    friend_ids = follows.pluck(:followed_user_id)
     sort_order = '(sleep_records.clock_out_time - sleep_records.clock_in_time) DESC'
 
-    SleepRecord.where(user_id: friend_ids)
-               .where('sleep_records.clock_in_time >= ?', 1.week.ago)
-               .order(Arel.sql(sort_order))
+    SleepRecord
+      .where(user_id: follows.select(:followed_user_id))
+      .where('sleep_records.clock_in_time >= ?', 1.week.ago)
+      .order(Arel.sql(sort_order))
   end
 
   def today_activities

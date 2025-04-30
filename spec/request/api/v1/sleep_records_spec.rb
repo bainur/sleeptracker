@@ -40,7 +40,7 @@ RSpec.describe "Api::V1::SleepRecords", type: :request do
 
       # Adjusting based on the JSONAPI::Serializer format
       body = JSON.parse(response.body)
-      sleep_record = body["data"].first["attributes"]
+      sleep_record = body["records"]["data"].first["attributes"]
 
       expect(sleep_record["duration_in_sec"]).to eq(3600)
     end
@@ -59,8 +59,8 @@ RSpec.describe "Api::V1::SleepRecords", type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      expect(body["message"]).to eq("Your Friends sleep records")
-      expect(body["data"].first["attributes"]["duration_in_sec"]).to eq(3600)
+      expect(body["message"]).to eq("Your Friends sleep records")      
+      expect(body["records"]["data"].first["attributes"]["duration_in_sec"]).to eq(3600)
     end
   end
 end
