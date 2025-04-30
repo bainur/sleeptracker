@@ -1,0 +1,1519 @@
+  [1m[35m (342.3ms)[0m  [1m[35mCREATE DATABASE "good_night_test" ENCODING = 'unicode'[0m
+  [1m[35m (19.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (19.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6180541248109309830)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20230329041002)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (17.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230329041002"]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSleepRecords (20230329041009)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE TABLE "sleep_records" ("id" bigserial primary key, "user_id" bigint NOT NULL, "clock_in_time" timestamp(6), "clock_out_time" timestamp(6), "duration_in_sec" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_0f78b0de7b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (6.9ms)[0m  [1m[35mCREATE INDEX "index_sleep_records_on_user_id" ON "sleep_records" ("user_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230329041009"]]
+  [1m[36mTRANSACTION (6.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateFollows (20230329041115)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "follows" ("id" bigserial primary key, "follower_id" bigint NOT NULL, "followed_user_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_622d34a301"
+FOREIGN KEY ("follower_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_532b19bbcc"
+FOREIGN KEY ("followed_user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (7.2ms)[0m  [1m[35mCREATE INDEX "index_follows_on_follower_id" ON "follows" ("follower_id")[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE INDEX "index_follows_on_followed_user_id" ON "follows" ("followed_user_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20230329041115"]]
+  [1m[36mTRANSACTION (6.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2025-04-30 08:59:21.064423"], ["updated_at", "2025-04-30 08:59:21.064423"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6180541248109309830)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (115.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "good_night_test"[0m
+  [1m[35m (244.3ms)[0m  [1m[35mCREATE DATABASE "good_night_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "follows" CASCADE[0m
+  [1m[35m (11.8ms)[0m  [1m[35mCREATE TABLE "follows" ("id" bigserial primary key, "follower_id" bigint NOT NULL, "followed_user_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (9.9ms)[0m  [1m[35mCREATE INDEX "index_follows_on_followed_user_id" ON "follows" ("followed_user_id")[0m
+  [1m[35m (9.9ms)[0m  [1m[35mCREATE INDEX "index_follows_on_follower_id" ON "follows" ("follower_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "sleep_records" CASCADE[0m
+  [1m[35m (10.4ms)[0m  [1m[35mCREATE TABLE "sleep_records" ("id" bigserial primary key, "user_id" bigint NOT NULL, "clock_in_time" timestamp(6), "clock_out_time" timestamp(6), "duration_in_sec" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (9.7ms)[0m  [1m[35mCREATE INDEX "index_sleep_records_on_user_id" ON "sleep_records" ("user_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (18.9ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mALTER TABLE "follows" ADD CONSTRAINT "fk_rails_532b19bbcc"
+FOREIGN KEY ("followed_user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (2.4ms)[0m  [1m[35mALTER TABLE "follows" ADD CONSTRAINT "fk_rails_622d34a301"
+FOREIGN KEY ("follower_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (1.9ms)[0m  [1m[35mALTER TABLE "sleep_records" ADD CONSTRAINT "fk_rails_0f78b0de7b"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (18.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20230329041115)[0m
+  [1m[35m (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20230329041002),
+(20230329041009);
+
+[0m
+  [1m[35m (18.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2025-04-30 08:59:32.041955"], ["updated_at", "2025-04-30 08:59:32.041955"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "cb3710b11e5df4eeeca2b607745fefaa25a95800"], ["created_at", "2025-04-30 08:59:32.047902"], ["updated_at", "2025-04-30 08:59:32.047902"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:00:55.915844"], ["updated_at", "2025-04-30 09:00:55.915844"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:00:55 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Filter chain halted as :authenticate_user! rendered or redirected
+Completed 401 Unauthorized in 2ms (Views: 0.2ms | ActiveRecord: 0.3ms | Allocations: 856)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:00:55.959769"], ["updated_at", "2025-04-30 09:00:55.959769"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.7ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 2], ["clock_in_time", "2025-04-30 09:00:55.990864"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:00:56.044855"], ["updated_at", "2025-04-30 09:00:56.044855"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:00:56 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Filter chain halted as :authenticate_user! rendered or redirected
+Completed 401 Unauthorized in 2ms (Views: 0.4ms | ActiveRecord: 0.2ms | Allocations: 364)
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:00:56.054874"], ["updated_at", "2025-04-30 09:00:56.054874"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 3], ["clock_in_time", "2025-04-30 07:00:56.056601"], ["clock_out_time", "2025-04-30 08:00:56.056641"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:00:56.057558"], ["updated_at", "2025-04-30 09:00:56.057558"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:00:56 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Filter chain halted as :authenticate_user! rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.2ms | Allocations: 418)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:00:56.067683"], ["updated_at", "2025-04-30 09:00:56.067683"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:00:56.069662"], ["updated_at", "2025-04-30 09:00:56.069662"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.7ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 4], ["followed_user_id", 5], ["created_at", "2025-04-30 09:00:56.080110"], ["updated_at", "2025-04-30 09:00:56.080110"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 5], ["clock_in_time", "2025-04-30 06:00:56.083156"], ["clock_out_time", "2025-04-30 07:00:56.083201"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:00:56.084216"], ["updated_at", "2025-04-30 09:00:56.084216"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:00:56 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+Filter chain halted as :authenticate_user! rendered or redirected
+Completed 401 Unauthorized in 2ms (Views: 0.5ms | ActiveRecord: 0.3ms | Allocations: 333)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:01:53.554500"], ["updated_at", "2025-04-30 09:01:53.554500"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:01:53 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 6], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (4.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 6], ["clock_in_time", "2025-04-30 09:01:53.575505"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:01:53.614643"], ["updated_at", "2025-04-30 09:01:53.614643"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 69ms (Views: 0.4ms | ActiveRecord: 8.1ms | Allocations: 12615)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:01:53.670565"], ["updated_at", "2025-04-30 09:01:53.670565"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 7], ["clock_in_time", "2025-04-30 09:01:53.672608"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:01:53.673441"], ["updated_at", "2025-04-30 09:01:53.673441"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:01:53 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 7], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:01:53.678923"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:01:53.681138"], ["id", 5]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.5ms | ActiveRecord: 1.3ms | Allocations: 1447)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:01:53.689129"], ["updated_at", "2025-04-30 09:01:53.689129"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.5ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 8], ["clock_in_time", "2025-04-30 07:01:53.691022"], ["clock_out_time", "2025-04-30 08:01:53.691066"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:01:53.691972"], ["updated_at", "2025-04-30 09:01:53.691972"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:01:53 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 8]]
+Completed 200 OK in 4ms (Views: 2.0ms | ActiveRecord: 0.7ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:01:53.705538"], ["updated_at", "2025-04-30 09:01:53.705538"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:01:53.707376"], ["updated_at", "2025-04-30 09:01:53.707376"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 9], ["followed_user_id", 10], ["created_at", "2025-04-30 09:01:53.715446"], ["updated_at", "2025-04-30 09:01:53.715446"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 10], ["clock_in_time", "2025-04-30 06:01:53.717674"], ["clock_out_time", "2025-04-30 07:01:53.717698"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:01:53.718526"], ["updated_at", "2025-04-30 09:01:53.718526"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:01:53 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 9]]
+  [1m[36mSleepRecord Load (0.6ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:01:53.724032') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 10]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 1.0ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:02:28.973532"], ["updated_at", "2025-04-30 09:02:28.973532"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:02:28 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 11], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 11], ["clock_in_time", "2025-04-30 09:02:28.995182"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:02:29.035517"], ["updated_at", "2025-04-30 09:02:29.035517"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 70ms (Views: 5.1ms | ActiveRecord: 3.7ms | Allocations: 12618)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:02:29.090789"], ["updated_at", "2025-04-30 09:02:29.090789"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 12], ["clock_in_time", "2025-04-30 09:02:29.093204"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:02:29.094179"], ["updated_at", "2025-04-30 09:02:29.094179"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:02:29 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 12], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:02:29.098845"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:02:29.101045"], ["id", 9]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.4ms | ActiveRecord: 1.2ms | Allocations: 1447)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:02:29.107783"], ["updated_at", "2025-04-30 09:02:29.107783"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 13], ["clock_in_time", "2025-04-30 07:02:29.110671"], ["clock_out_time", "2025-04-30 08:02:29.110702"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:02:29.111558"], ["updated_at", "2025-04-30 09:02:29.111558"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:02:29 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 13], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 13]]
+Completed 200 OK in 4ms (Views: 2.2ms | ActiveRecord: 0.5ms | Allocations: 959)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:02:29.125221"], ["updated_at", "2025-04-30 09:02:29.125221"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:02:29.127106"], ["updated_at", "2025-04-30 09:02:29.127106"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 14], ["followed_user_id", 15], ["created_at", "2025-04-30 09:02:29.136360"], ["updated_at", "2025-04-30 09:02:29.136360"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 15], ["clock_in_time", "2025-04-30 06:02:29.138277"], ["clock_out_time", "2025-04-30 07:02:29.138562"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:02:29.139879"], ["updated_at", "2025-04-30 09:02:29.139879"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:02:29 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 14], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 14]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:02:29.146181') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 15]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 1.0ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.498346"], ["updated_at", "2025-04-30 09:03:51.498346"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 16], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.5ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 16], ["clock_in_time", "2025-04-30 09:03:51.517633"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:03:51.603321"], ["updated_at", "2025-04-30 09:03:51.603321"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 97ms (Views: 0.5ms | ActiveRecord: 3.9ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 16], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.615435"], ["updated_at", "2025-04-30 09:03:51.615435"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 17], ["clock_in_time", "2025-04-30 09:03:51.617061"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:03:51.619253"], ["updated_at", "2025-04-30 09:03:51.619253"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 17], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:03:51.623199"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:03:51.625063"], ["id", 13]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.3ms | ActiveRecord: 1.0ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.631311"], ["updated_at", "2025-04-30 09:03:51.631311"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 18], ["clock_in_time", "2025-04-30 07:03:51.633035"], ["clock_out_time", "2025-04-30 08:03:51.633066"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:03:51.633902"], ["updated_at", "2025-04-30 09:03:51.633902"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 18], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 18]]
+Completed 200 OK in 3ms (Views: 1.6ms | ActiveRecord: 0.5ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.647365"], ["updated_at", "2025-04-30 09:03:51.647365"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:03:51.649611"], ["updated_at", "2025-04-30 09:03:51.649611"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 19], ["followed_user_id", 20], ["created_at", "2025-04-30 09:03:51.658732"], ["updated_at", "2025-04-30 09:03:51.658732"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 20], ["clock_in_time", "2025-04-30 06:03:51.660787"], ["clock_out_time", "2025-04-30 07:03:51.660826"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:03:51.661751"], ["updated_at", "2025-04-30 09:03:51.661751"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 19], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 19]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:03:51.667869') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 20]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 0.9ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.672703"], ["updated_at", "2025-04-30 09:03:51.672703"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 21], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.2ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 21]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 21]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 21]]
+Completed 200 OK in 9ms (Views: 4.3ms | ActiveRecord: 1.0ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:03:51.687379"], ["updated_at", "2025-04-30 09:03:51.687379"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.689201"], ["updated_at", "2025-04-30 09:03:51.689201"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"22"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 23], ["followed_user_id", 22], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 23], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 22], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.3ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 23], ["followed_user_id", 22], ["created_at", "2025-04-30 09:03:51.696788"], ["updated_at", "2025-04-30 09:03:51.696788"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 7ms (Views: 0.8ms | ActiveRecord: 1.1ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.705860"], ["updated_at", "2025-04-30 09:03:51.705860"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:03:51.707673"], ["updated_at", "2025-04-30 09:03:51.707673"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 24], ["followed_user_id", 25], ["created_at", "2025-04-30 09:03:51.710719"], ["updated_at", "2025-04-30 09:03:51.710719"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"25"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 24], ["followed_user_id", 25], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 24], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 25], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.3ms | ActiveRecord: 0.6ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.720084"], ["updated_at", "2025-04-30 09:03:51.720084"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:03:51.723000"], ["updated_at", "2025-04-30 09:03:51.723000"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 26], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 26], ["followed_user_id", 27], ["created_at", "2025-04-30 09:03:51.725977"], ["updated_at", "2025-04-30 09:03:51.725977"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"27"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 26], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 26], ["followed_user_id", 27], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 7]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 3ms (ActiveRecord: 0.7ms | Allocations: 818)
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 26], ["followed_user_id", 27], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:03:51.735377"], ["updated_at", "2025-04-30 09:03:51.735377"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:03:51.737157"], ["updated_at", "2025-04-30 09:03:51.737157"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:03:51 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"28"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 29], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 29], ["followed_user_id", 28], ["LIMIT", 1]]
+Completed 204 No Content in 3ms (ActiveRecord: 0.5ms | Allocations: 608)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.277456"], ["updated_at", "2025-04-30 09:05:30.277456"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 30], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 30], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 30], ["clock_in_time", "2025-04-30 09:05:30.299329"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:05:30.382448"], ["updated_at", "2025-04-30 09:05:30.382448"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 101ms (Views: 0.8ms | ActiveRecord: 4.4ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 30], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.401555"], ["updated_at", "2025-04-30 09:05:30.401555"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 31], ["clock_in_time", "2025-04-30 09:05:30.403161"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:05:30.404035"], ["updated_at", "2025-04-30 09:05:30.404035"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 31], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 31], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:05:30.408685"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:05:30.410622"], ["id", 17]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.3ms | ActiveRecord: 1.1ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.416755"], ["updated_at", "2025-04-30 09:05:30.416755"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 32], ["clock_in_time", "2025-04-30 07:05:30.418188"], ["clock_out_time", "2025-04-30 08:05:30.418216"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:05:30.419352"], ["updated_at", "2025-04-30 09:05:30.419352"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 32], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 32]]
+Completed 200 OK in 3ms (Views: 1.2ms | ActiveRecord: 0.4ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.431620"], ["updated_at", "2025-04-30 09:05:30.431620"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:05:30.433858"], ["updated_at", "2025-04-30 09:05:30.433858"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.7ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 33], ["followed_user_id", 34], ["created_at", "2025-04-30 09:05:30.445057"], ["updated_at", "2025-04-30 09:05:30.445057"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 34], ["clock_in_time", "2025-04-30 06:05:30.447275"], ["clock_out_time", "2025-04-30 07:05:30.447312"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:05:30.448325"], ["updated_at", "2025-04-30 09:05:30.448325"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 33], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 33]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:05:30.453699') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 34]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.9ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.458767"], ["updated_at", "2025-04-30 09:05:30.458767"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 35], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.2ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 35]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 35]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 35]]
+Completed 200 OK in 9ms (Views: 5.1ms | ActiveRecord: 1.0ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:05:30.475097"], ["updated_at", "2025-04-30 09:05:30.475097"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.476678"], ["updated_at", "2025-04-30 09:05:30.476678"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"36"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 37], ["followed_user_id", 36], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 37], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 36], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 37], ["followed_user_id", 36], ["created_at", "2025-04-30 09:05:30.486214"], ["updated_at", "2025-04-30 09:05:30.486214"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 10ms (Views: 0.9ms | ActiveRecord: 1.8ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.498548"], ["updated_at", "2025-04-30 09:05:30.498548"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:05:30.501143"], ["updated_at", "2025-04-30 09:05:30.501143"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.5ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 38], ["followed_user_id", 39], ["created_at", "2025-04-30 09:05:30.504041"], ["updated_at", "2025-04-30 09:05:30.504041"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"39"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 38], ["followed_user_id", 39], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 38], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 39], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.5ms | ActiveRecord: 0.6ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.514378"], ["updated_at", "2025-04-30 09:05:30.514378"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:05:30.516254"], ["updated_at", "2025-04-30 09:05:30.516254"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 40], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.5ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 40], ["followed_user_id", 41], ["created_at", "2025-04-30 09:05:30.519018"], ["updated_at", "2025-04-30 09:05:30.519018"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"41"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 40], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 40], ["followed_user_id", 41], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.3ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 11]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 4ms (ActiveRecord: 0.9ms | Allocations: 818)
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 40], ["followed_user_id", 41], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:05:30.530763"], ["updated_at", "2025-04-30 09:05:30.530763"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:05:30.532281"], ["updated_at", "2025-04-30 09:05:30.532281"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:05:30 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"42"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 43], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 43], ["followed_user_id", 42], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.4ms | Allocations: 608)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:24.850507"], ["updated_at", "2025-04-30 09:08:24.850507"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:08:24 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 44], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.6ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 44], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.5ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 44], ["clock_in_time", "2025-04-30 09:08:24.871301"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:08:24.953838"], ["updated_at", "2025-04-30 09:08:24.953838"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 100ms (Views: 0.7ms | ActiveRecord: 4.7ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 44], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:24.972988"], ["updated_at", "2025-04-30 09:08:24.972988"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 45], ["clock_in_time", "2025-04-30 09:08:24.974783"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:08:24.975777"], ["updated_at", "2025-04-30 09:08:24.975777"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:08:24 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 45], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 45], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:08:24.981452"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:08:24.983399"], ["id", 21]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 1.1ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:24.988761"], ["updated_at", "2025-04-30 09:08:24.988761"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 46], ["clock_in_time", "2025-04-30 07:08:24.990341"], ["clock_out_time", "2025-04-30 08:08:24.990369"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:08:24.991448"], ["updated_at", "2025-04-30 09:08:24.991448"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:08:24 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 46], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 46]]
+Completed 200 OK in 3ms (Views: 1.1ms | ActiveRecord: 0.4ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.003789"], ["updated_at", "2025-04-30 09:08:25.003789"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:08:25.005742"], ["updated_at", "2025-04-30 09:08:25.005742"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 47], ["followed_user_id", 48], ["created_at", "2025-04-30 09:08:25.016091"], ["updated_at", "2025-04-30 09:08:25.016091"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 48], ["clock_in_time", "2025-04-30 06:08:25.018005"], ["clock_out_time", "2025-04-30 07:08:25.018028"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:08:25.018842"], ["updated_at", "2025-04-30 09:08:25.018842"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 47], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 47]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:08:25.024095') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 48]]
+Completed 200 OK in 4ms (Views: 0.3ms | ActiveRecord: 0.8ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.028739"], ["updated_at", "2025-04-30 09:08:25.028739"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 49], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.3ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 49]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 49]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 49]]
+Completed 200 OK in 8ms (Views: 3.9ms | ActiveRecord: 1.1ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:08:25.044374"], ["updated_at", "2025-04-30 09:08:25.044374"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.045957"], ["updated_at", "2025-04-30 09:08:25.045957"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"50"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 51], ["followed_user_id", 50], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 51], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 50], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 51], ["followed_user_id", 50], ["created_at", "2025-04-30 09:08:25.053800"], ["updated_at", "2025-04-30 09:08:25.053800"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 7ms (Views: 0.5ms | ActiveRecord: 1.2ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.063738"], ["updated_at", "2025-04-30 09:08:25.063738"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:08:25.065509"], ["updated_at", "2025-04-30 09:08:25.065509"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 52], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 52], ["followed_user_id", 53], ["created_at", "2025-04-30 09:08:25.068465"], ["updated_at", "2025-04-30 09:08:25.068465"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"53"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 52], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 52], ["followed_user_id", 53], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 52], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 53], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.3ms | ActiveRecord: 0.5ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.077377"], ["updated_at", "2025-04-30 09:08:25.077377"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:08:25.079456"], ["updated_at", "2025-04-30 09:08:25.079456"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 54], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 54], ["followed_user_id", 55], ["created_at", "2025-04-30 09:08:25.082658"], ["updated_at", "2025-04-30 09:08:25.082658"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"55"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 54], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 54], ["followed_user_id", 55], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 15]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 3ms (ActiveRecord: 0.8ms | Allocations: 818)
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 54], ["followed_user_id", 55], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:08:25.093063"], ["updated_at", "2025-04-30 09:08:25.093063"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:08:25.094802"], ["updated_at", "2025-04-30 09:08:25.094802"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:08:25 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"56"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 57], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 57], ["followed_user_id", 56], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.4ms | Allocations: 608)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.595508"], ["updated_at", "2025-04-30 09:15:51.595508"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 58], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 58], ["clock_in_time", "2025-04-30 09:15:51.617501"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:15:51.700567"], ["updated_at", "2025-04-30 09:15:51.700567"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 103ms (Views: 0.7ms | ActiveRecord: 4.6ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 58], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.720968"], ["updated_at", "2025-04-30 09:15:51.720968"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 59], ["clock_in_time", "2025-04-30 09:15:51.722780"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:15:51.723766"], ["updated_at", "2025-04-30 09:15:51.723766"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 59], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 59], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.5ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:15:51.729289"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:15:51.731231"], ["id", 25]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.4ms | ActiveRecord: 1.2ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.738067"], ["updated_at", "2025-04-30 09:15:51.738067"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 60], ["clock_in_time", "2025-04-30 07:15:51.739814"], ["clock_out_time", "2025-04-30 08:15:51.739859"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:15:51.741026"], ["updated_at", "2025-04-30 09:15:51.741026"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 60], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 60]]
+Completed 200 OK in 4ms (Views: 1.6ms | ActiveRecord: 0.5ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.754346"], ["updated_at", "2025-04-30 09:15:51.754346"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:15:51.756357"], ["updated_at", "2025-04-30 09:15:51.756357"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 61], ["followed_user_id", 62], ["created_at", "2025-04-30 09:15:51.767666"], ["updated_at", "2025-04-30 09:15:51.767666"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 62], ["clock_in_time", "2025-04-30 06:15:51.769710"], ["clock_out_time", "2025-04-30 07:15:51.769741"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:15:51.770672"], ["updated_at", "2025-04-30 09:15:51.770672"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 61], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 61]]
+  [1m[36mSleepRecord Load (0.9ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:15:51.776264') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 62]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 1.4ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.782139"], ["updated_at", "2025-04-30 09:15:51.782139"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 63], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.2ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 63]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 63]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 63]]
+Completed 200 OK in 9ms (Views: 4.0ms | ActiveRecord: 1.1ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:15:51.798098"], ["updated_at", "2025-04-30 09:15:51.798098"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:15:51.800889"], ["updated_at", "2025-04-30 09:15:51.800889"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:15:51 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"64"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 65], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 65], ["followed_user_id", 64], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 65], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 64], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 65], ["followed_user_id", 64], ["created_at", "2025-04-30 09:15:51.810621"], ["updated_at", "2025-04-30 09:15:51.810621"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 9ms (Views: 0.6ms | ActiveRecord: 1.2ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:49.755755"], ["updated_at", "2025-04-30 09:16:49.755755"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:49.758073"], ["updated_at", "2025-04-30 09:16:49.758073"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 66], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 66], ["followed_user_id", 67], ["created_at", "2025-04-30 09:16:49.761257"], ["updated_at", "2025-04-30 09:16:49.761257"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:16:49 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"67"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 66], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 66], ["followed_user_id", 67], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 66], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 67], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.7ms | ActiveRecord: 0.5ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:49.770595"], ["updated_at", "2025-04-30 09:16:49.770595"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:49.773088"], ["updated_at", "2025-04-30 09:16:49.773088"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 68], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 68], ["followed_user_id", 69], ["created_at", "2025-04-30 09:16:49.777262"], ["updated_at", "2025-04-30 09:16:49.777262"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:16:49 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"69"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 68], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.4ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 68], ["followed_user_id", 69], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 19]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 4ms (ActiveRecord: 1.0ms | Allocations: 818)
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 68], ["followed_user_id", 69], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:49.788770"], ["updated_at", "2025-04-30 09:16:49.788770"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:49.790887"], ["updated_at", "2025-04-30 09:16:49.790887"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:16:49 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"70"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 71], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 71], ["followed_user_id", 70], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.4ms | Allocations: 607)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.197067"], ["updated_at", "2025-04-30 09:16:52.197067"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 72], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 72], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 72], ["clock_in_time", "2025-04-30 09:16:52.216949"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:16:52.293048"], ["updated_at", "2025-04-30 09:16:52.293048"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 98ms (Views: 1.2ms | ActiveRecord: 4.5ms | Allocations: 12591)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 72], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.317468"], ["updated_at", "2025-04-30 09:16:52.317468"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 73], ["clock_in_time", "2025-04-30 09:16:52.319205"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:16:52.320176"], ["updated_at", "2025-04-30 09:16:52.320176"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 73], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 73], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:16:52.324895"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:16:52.326543"], ["id", 29]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.4ms | ActiveRecord: 1.0ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.333344"], ["updated_at", "2025-04-30 09:16:52.333344"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 74], ["clock_in_time", "2025-04-30 07:16:52.334865"], ["clock_out_time", "2025-04-30 08:16:52.334897"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:16:52.335943"], ["updated_at", "2025-04-30 09:16:52.335943"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 74], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 74]]
+Completed 200 OK in 3ms (Views: 1.6ms | ActiveRecord: 0.4ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.350179"], ["updated_at", "2025-04-30 09:16:52.350179"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:16:52.352100"], ["updated_at", "2025-04-30 09:16:52.352100"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 75], ["followed_user_id", 76], ["created_at", "2025-04-30 09:16:52.362095"], ["updated_at", "2025-04-30 09:16:52.362095"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 76], ["clock_in_time", "2025-04-30 06:16:52.364227"], ["clock_out_time", "2025-04-30 07:16:52.364253"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:16:52.365156"], ["updated_at", "2025-04-30 09:16:52.365156"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 75], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 75]]
+  [1m[36mSleepRecord Load (0.6ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:16:52.370497') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 76]]
+Completed 200 OK in 5ms (Views: 0.3ms | ActiveRecord: 0.9ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.376211"], ["updated_at", "2025-04-30 09:16:52.376211"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 77], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.2ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 77]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 77]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 77]]
+Completed 200 OK in 9ms (Views: 4.7ms | ActiveRecord: 1.1ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:52.392128"], ["updated_at", "2025-04-30 09:16:52.392128"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:52.394027"], ["updated_at", "2025-04-30 09:16:52.394027"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:16:52 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"78"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 79], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 79], ["followed_user_id", 78], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 79], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 78], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 79], ["followed_user_id", 78], ["created_at", "2025-04-30 09:16:52.403092"], ["updated_at", "2025-04-30 09:16:52.403092"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 8ms (Views: 0.8ms | ActiveRecord: 1.2ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:54.175351"], ["updated_at", "2025-04-30 09:16:54.175351"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:54.177573"], ["updated_at", "2025-04-30 09:16:54.177573"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 80], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 80], ["followed_user_id", 81], ["created_at", "2025-04-30 09:16:54.180470"], ["updated_at", "2025-04-30 09:16:54.180470"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:16:54 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"81"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 80], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 80], ["followed_user_id", 81], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 80], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 81], ["LIMIT", 1]]
+Completed 200 OK in 5ms (Views: 2.0ms | ActiveRecord: 0.6ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:54.190638"], ["updated_at", "2025-04-30 09:16:54.190638"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:54.192640"], ["updated_at", "2025-04-30 09:16:54.192640"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 82], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.3ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 82], ["followed_user_id", 83], ["created_at", "2025-04-30 09:16:54.195800"], ["updated_at", "2025-04-30 09:16:54.195800"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:16:54 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"83"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 82], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 82], ["followed_user_id", 83], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 23]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 3ms (ActiveRecord: 0.7ms | Allocations: 818)
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 82], ["followed_user_id", 83], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:16:54.204591"], ["updated_at", "2025-04-30 09:16:54.204591"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:16:54.206501"], ["updated_at", "2025-04-30 09:16:54.206501"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:16:54 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"84"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 85], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 85], ["followed_user_id", 84], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.4ms | Allocations: 607)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:24.974577"], ["updated_at", "2025-04-30 09:32:24.974577"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:32:24 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 86], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 86], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 86], ["clock_in_time", "2025-04-30 09:32:25.003590"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:32:25.092379"], ["updated_at", "2025-04-30 09:32:25.092379"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 110ms (Views: 0.4ms | ActiveRecord: 9.0ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 86], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:25.111587"], ["updated_at", "2025-04-30 09:32:25.111587"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 87], ["clock_in_time", "2025-04-30 09:32:25.113256"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:32:25.114069"], ["updated_at", "2025-04-30 09:32:25.114069"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:32:25 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 87], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 87], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.4ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:32:25.118353"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:32:25.120055"], ["id", 33]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 5ms (Views: 0.4ms | ActiveRecord: 1.3ms | Allocations: 1447)
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:25.126018"], ["updated_at", "2025-04-30 09:32:25.126018"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.5ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 88], ["clock_in_time", "2025-04-30 07:32:25.127366"], ["clock_out_time", "2025-04-30 08:32:25.127392"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:32:25.128388"], ["updated_at", "2025-04-30 09:32:25.128388"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:32:25 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 88], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 88]]
+Completed 200 OK in 3ms (Views: 1.3ms | ActiveRecord: 0.6ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:25.142396"], ["updated_at", "2025-04-30 09:32:25.142396"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:32:25.144269"], ["updated_at", "2025-04-30 09:32:25.144269"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 89], ["followed_user_id", 90], ["created_at", "2025-04-30 09:32:25.156097"], ["updated_at", "2025-04-30 09:32:25.156097"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 90], ["clock_in_time", "2025-04-30 06:32:25.158244"], ["clock_out_time", "2025-04-30 07:32:25.158272"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:32:25.159216"], ["updated_at", "2025-04-30 09:32:25.159216"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:32:25 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 89], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 89]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:32:25.164424') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 90]]
+Completed 200 OK in 4ms (Views: 0.4ms | ActiveRecord: 0.8ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:25.169542"], ["updated_at", "2025-04-30 09:32:25.169542"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:32:25 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 91], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.3ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 91]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 91]]
+  [1m[36mFollow Load (0.1ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 91]]
+Completed 200 OK in 10ms (Views: 5.3ms | ActiveRecord: 1.0ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:32:25.186349"], ["updated_at", "2025-04-30 09:32:25.186349"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:32:25.188078"], ["updated_at", "2025-04-30 09:32:25.188078"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:32:25 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"92"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 93], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 93], ["followed_user_id", 92], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 93], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 92], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 93], ["followed_user_id", 92], ["created_at", "2025-04-30 09:32:25.196316"], ["updated_at", "2025-04-30 09:32:25.196316"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 8ms (Views: 0.6ms | ActiveRecord: 1.1ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:39.489351"], ["updated_at", "2025-04-30 09:33:39.489351"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:39.491089"], ["updated_at", "2025-04-30 09:33:39.491089"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 94], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 94], ["followed_user_id", 95], ["created_at", "2025-04-30 09:33:39.494744"], ["updated_at", "2025-04-30 09:33:39.494744"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:33:39 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"95"}}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 94], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 94], ["followed_user_id", 95], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 94], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 95], ["LIMIT", 1]]
+Completed 200 OK in 5ms (Views: 1.9ms | ActiveRecord: 0.6ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:39.505654"], ["updated_at", "2025-04-30 09:33:39.505654"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:39.507519"], ["updated_at", "2025-04-30 09:33:39.507519"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 96], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 96], ["followed_user_id", 97], ["created_at", "2025-04-30 09:33:39.511252"], ["updated_at", "2025-04-30 09:33:39.511252"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:33:39 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"97"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 96], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 96], ["followed_user_id", 97], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 27]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 4ms (ActiveRecord: 0.9ms | Allocations: 818)
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 96], ["followed_user_id", 97], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:39.521752"], ["updated_at", "2025-04-30 09:33:39.521752"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:39.523462"], ["updated_at", "2025-04-30 09:33:39.523462"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:33:39 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"98"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 99], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 99], ["followed_user_id", 98], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.5ms | Allocations: 607)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:41.899126"], ["updated_at", "2025-04-30 09:33:41.899126"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:33:41 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 100], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 100], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.5ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 100], ["clock_in_time", "2025-04-30 09:33:41.920522"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:33:42.002780"], ["updated_at", "2025-04-30 09:33:42.002780"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 99ms (Views: 0.6ms | ActiveRecord: 4.5ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 100], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:42.020021"], ["updated_at", "2025-04-30 09:33:42.020021"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 101], ["clock_in_time", "2025-04-30 09:33:42.021672"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:33:42.022652"], ["updated_at", "2025-04-30 09:33:42.022652"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:33:42 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 101], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 101], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (0.5ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:33:42.027717"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:33:42.029555"], ["id", 37]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 6ms (Views: 0.3ms | ActiveRecord: 1.2ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:42.036339"], ["updated_at", "2025-04-30 09:33:42.036339"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 102], ["clock_in_time", "2025-04-30 07:33:42.038039"], ["clock_out_time", "2025-04-30 08:33:42.038082"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:33:42.039273"], ["updated_at", "2025-04-30 09:33:42.039273"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:33:42 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 102], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 102]]
+Completed 200 OK in 4ms (Views: 1.6ms | ActiveRecord: 0.5ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:42.053143"], ["updated_at", "2025-04-30 09:33:42.053143"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:33:42.055244"], ["updated_at", "2025-04-30 09:33:42.055244"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.6ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 103], ["followed_user_id", 104], ["created_at", "2025-04-30 09:33:42.065906"], ["updated_at", "2025-04-30 09:33:42.065906"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 104], ["clock_in_time", "2025-04-30 06:33:42.067858"], ["clock_out_time", "2025-04-30 07:33:42.067884"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:33:42.068991"], ["updated_at", "2025-04-30 09:33:42.068991"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:33:42 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 103], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 103]]
+  [1m[36mSleepRecord Load (1.0ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:33:42.074393') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 104]]
+Completed 200 OK in 5ms (Views: 0.5ms | ActiveRecord: 1.4ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:42.080248"], ["updated_at", "2025-04-30 09:33:42.080248"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:33:42 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 105], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.2ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 105]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 105]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 105]]
+Completed 200 OK in 9ms (Views: 4.7ms | ActiveRecord: 0.9ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:42.095807"], ["updated_at", "2025-04-30 09:33:42.095807"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:42.097549"], ["updated_at", "2025-04-30 09:33:42.097549"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:33:42 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"106"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 107], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 107], ["followed_user_id", 106], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 107], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 106], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.5ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 107], ["followed_user_id", 106], ["created_at", "2025-04-30 09:33:42.106398"], ["updated_at", "2025-04-30 09:33:42.106398"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 9ms (Views: 0.8ms | ActiveRecord: 1.3ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:43.611804"], ["updated_at", "2025-04-30 09:33:43.611804"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:43.614298"], ["updated_at", "2025-04-30 09:33:43.614298"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 108], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.3ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 108], ["followed_user_id", 109], ["created_at", "2025-04-30 09:33:43.617287"], ["updated_at", "2025-04-30 09:33:43.617287"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:33:43 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"109"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 108], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 108], ["followed_user_id", 109], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 108], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 109], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.7ms | ActiveRecord: 0.6ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:43.626060"], ["updated_at", "2025-04-30 09:33:43.626060"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:43.628022"], ["updated_at", "2025-04-30 09:33:43.628022"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 110], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 110], ["followed_user_id", 111], ["created_at", "2025-04-30 09:33:43.631518"], ["updated_at", "2025-04-30 09:33:43.631518"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:33:43 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"111"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 110], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 110], ["followed_user_id", 111], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.3ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 31]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 4ms (ActiveRecord: 0.9ms | Allocations: 818)
+  [1m[36mFollow Load (0.3ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 110], ["followed_user_id", 111], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:33:43.642294"], ["updated_at", "2025-04-30 09:33:43.642294"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:33:43.644108"], ["updated_at", "2025-04-30 09:33:43.644108"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:33:43 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"112"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 113], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 113], ["followed_user_id", 112], ["LIMIT", 1]]
+Completed 204 No Content in 3ms (ActiveRecord: 0.4ms | Allocations: 607)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.028792"], ["updated_at", "2025-04-30 09:52:40.028792"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_in" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::SleepRecordsController#clock_in as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 114], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.4ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 114], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.6ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 114], ["clock_in_time", "2025-04-30 09:52:40.058125"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:52:40.132811"], ["updated_at", "2025-04-30 09:52:40.132811"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 108ms (Views: 3.5ms | ActiveRecord: 4.6ms | Allocations: 12617)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 114], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.167324"], ["updated_at", "2025-04-30 09:52:40.167324"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 115], ["clock_in_time", "2025-04-30 09:52:40.169069"], ["clock_out_time", nil], ["duration_in_sec", nil], ["created_at", "2025-04-30 09:52:40.169858"], ["updated_at", "2025-04-30 09:52:40.169858"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/clock_out" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::SleepRecordsController#clock_out as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 115], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."id" DESC LIMIT $2[0m  [["user_id", 115], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Update (2.1ms)[0m  [1m[33mUPDATE "sleep_records" SET "clock_out_time" = $1, "duration_in_sec" = $2, "updated_at" = $3 WHERE "sleep_records"."id" = $4[0m  [["clock_out_time", "2025-04-30 09:52:40.174209"], ["duration_in_sec", 0], ["updated_at", "2025-04-30 09:52:40.175995"], ["id", 41]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 200 OK in 7ms (Views: 0.3ms | ActiveRecord: 2.9ms | Allocations: 1448)
+  [1m[36mSleepRecord Load (0.2ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" ORDER BY "sleep_records"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.184292"], ["updated_at", "2025-04-30 09:52:40.184292"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.4ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 116], ["clock_in_time", "2025-04-30 07:52:40.185994"], ["clock_out_time", "2025-04-30 08:52:40.186029"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:52:40.187159"], ["updated_at", "2025-04-30 09:52:40.187159"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/sleep_records" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::SleepRecordsController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 116], ["LIMIT", 1]]
+  [1m[36mSleepRecord Load (0.3ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 ORDER BY "sleep_records"."created_at" DESC[0m  [["user_id", 116]]
+Completed 200 OK in 4ms (Views: 1.8ms | ActiveRecord: 0.6ms | Allocations: 958)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.200951"], ["updated_at", "2025-04-30 09:52:40.200951"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Friend User"], ["created_at", "2025-04-30 09:52:40.202900"], ["updated_at", "2025-04-30 09:52:40.202900"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Create (0.7ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 117], ["followed_user_id", 118], ["created_at", "2025-04-30 09:52:40.212756"], ["updated_at", "2025-04-30 09:52:40.212756"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mSleepRecord Create (0.3ms)[0m  [1m[32mINSERT INTO "sleep_records" ("user_id", "clock_in_time", "clock_out_time", "duration_in_sec", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 118], ["clock_in_time", "2025-04-30 06:52:40.215019"], ["clock_out_time", "2025-04-30 07:52:40.215060"], ["duration_in_sec", 3600], ["created_at", "2025-04-30 09:52:40.215920"], ["updated_at", "2025-04-30 09:52:40.215920"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/friends_sleep_records" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::SleepRecordsController#friends_sleep_records as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 117], ["LIMIT", 1]]
+  [1m[36mFollow Pluck (0.2ms)[0m  [1m[34mSELECT "follows"."followed_user_id" FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 117]]
+  [1m[36mSleepRecord Load (0.5ms)[0m  [1m[34mSELECT "sleep_records".* FROM "sleep_records" WHERE "sleep_records"."user_id" = $1 AND (sleep_records.clock_in_time >= '2025-04-23 09:52:40.222125') ORDER BY (sleep_records.clock_out_time - sleep_records.clock_in_time) DESC[0m  [["user_id", 118]]
+Completed 200 OK in 5ms (Views: 0.8ms | ActiveRecord: 1.0ms | Allocations: 1383)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.227642"], ["updated_at", "2025-04-30 09:52:40.227642"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/api/v1/profile" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::UsersController#profile as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 119], ["LIMIT", 1]]
+  [1m[36mSleepRecord Pluck (0.3ms)[0m  [1m[34mSELECT "sleep_records"."id" FROM "sleep_records" WHERE "sleep_records"."user_id" = $1[0m  [["user_id", 119]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" INNER JOIN "follows" ON "users"."id" = "follows"."followed_user_id" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 119]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1[0m  [["follower_id", 119]]
+Completed 200 OK in 10ms (Views: 4.5ms | ActiveRecord: 1.2ms | Allocations: 3297)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:52:40.245136"], ["updated_at", "2025-04-30 09:52:40.245136"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:40.247062"], ["updated_at", "2025-04-30 09:52:40.247062"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:52:40 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"120"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 121], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 121], ["followed_user_id", 120], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 121], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 120], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.5ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 121], ["followed_user_id", 120], ["created_at", "2025-04-30 09:52:40.256409"], ["updated_at", "2025-04-30 09:52:40.256409"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 9ms (Views: 0.6ms | ActiveRecord: 1.3ms | Allocations: 2764)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:43.357932"], ["updated_at", "2025-04-30 09:52:43.357932"]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:52:43.361846"], ["updated_at", "2025-04-30 09:52:43.361846"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 122], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.4ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 122], ["followed_user_id", 123], ["created_at", "2025-04-30 09:52:43.366572"], ["updated_at", "2025-04-30 09:52:43.366572"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/api/v1/follow" for 127.0.0.1 at 2025-04-30 16:52:43 +0700
+Processing by Api::V1::UsersController#follow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"123"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 122], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 122], ["followed_user_id", 123], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 122], ["LIMIT", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 123], ["LIMIT", 1]]
+Completed 200 OK in 4ms (Views: 1.4ms | ActiveRecord: 0.5ms | Allocations: 1408)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:43.375435"], ["updated_at", "2025-04-30 09:52:43.375435"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:52:43.376955"], ["updated_at", "2025-04-30 09:52:43.376955"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 124], ["LIMIT", 1]]
+  [1m[36mFollow Create (0.5ms)[0m  [1m[32mINSERT INTO "follows" ("follower_id", "followed_user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["follower_id", 124], ["followed_user_id", 125], ["created_at", "2025-04-30 09:52:43.380113"], ["updated_at", "2025-04-30 09:52:43.380113"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:52:43 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"125"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 124], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 124], ["followed_user_id", 125], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mFollow Destroy (0.2ms)[0m  [1m[31mDELETE FROM "follows" WHERE "follows"."id" = $1[0m  [["id", 35]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 204 No Content in 3ms (ActiveRecord: 0.9ms | Allocations: 818)
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 124], ["followed_user_id", 125], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Another User"], ["created_at", "2025-04-30 09:52:43.390340"], ["updated_at", "2025-04-30 09:52:43.390340"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Test User"], ["created_at", "2025-04-30 09:52:43.392212"], ["updated_at", "2025-04-30 09:52:43.392212"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started DELETE "/api/v1/unfollow" for 127.0.0.1 at 2025-04-30 16:52:43 +0700
+Processing by Api::V1::UsersController#unfollow as HTML
+  Parameters: {"follow"=>{"followed_user_id"=>"126"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 127], ["LIMIT", 1]]
+  [1m[36mFollow Load (0.2ms)[0m  [1m[34mSELECT "follows".* FROM "follows" WHERE "follows"."follower_id" = $1 AND "follows"."followed_user_id" = $2 LIMIT $3[0m  [["follower_id", 127], ["followed_user_id", 126], ["LIMIT", 1]]
+Completed 204 No Content in 2ms (ActiveRecord: 0.4ms | Allocations: 607)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m

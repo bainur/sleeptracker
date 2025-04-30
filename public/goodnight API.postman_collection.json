@@ -1,0 +1,183 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Good Night API",
+		"_postman_id": "61d34491-66e1-595d-eacc-ec9c7a808039",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Clock In",
+			"request": {
+				"url": "http://localhost:3000/api/v1/clock_in",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Clock Out",
+			"request": {
+				"url": "http://localhost:3000/api/v1/clock_out",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user_id\":1}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET all sleep record ( current user )",
+			"request": {
+				"url": "http://localhost:3000/api/v1/sleep_records",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user_id\":1}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sleep Records for Friends",
+			"request": {
+				"url": "http://localhost:3000/api/v1/friends_sleep_records",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User Profile",
+			"request": {
+				"url": "http://localhost:3000/api/v1/profile",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"follower_id\":1,\"followed_user_id\":2}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Follow User",
+			"request": {
+				"url": "http://localhost:3000/api/v1/follow",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"follow\": {\n\t\"followed_user_id\":1\n}\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Unfollow User",
+			"request": {
+				"url": "http://localhost:3000/api/v1/unfollow",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "X-User-Id",
+						"value": "{{user_id}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"follow\":\n  {\n\t\"followed_user_id\":5\n  }\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
