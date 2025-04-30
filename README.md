@@ -5,7 +5,7 @@
 Hi there. kindly check this simple documentation. 
 just FYI, i made this simple app, around 3-5 hours :). 
 
-Without any rspec / features testing btw. 
+With Rspec testing also.
 Just QA - ing my self. haha
 ## Prerequisites Installations
 
@@ -31,13 +31,13 @@ Once you have installed the required package shown on the, proceed with the foll
 Clone the Repository,
 
 ```Shell
-your@pc:~$ git clone https://github.com/bainur/good-night
+your@pc:~$ git clone https://github.com/bainur/sleeptracker
 ```
 
 Move into the cloned folder
 
 ```Shell
-your@pc:~$ cd good-night
+your@pc:~$ cd sleeptracker
 ```
 
 Get the dependencies needed for the app
