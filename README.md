@@ -76,3 +76,10 @@ Here you can find the API Documentation
 | POST api/v1/unfollow                   | unFollow another user                        | Ok     | {"follow": { "followed_user_id":1 }}   |
 | GET api/v1/friends_sleep_records       | Your Friends sleeping records, 1 week        | Ok     | Headers X-User-Id                      |
 
+### Test API.
+
+```Shell
+bundle exec rspec
+```
+
+
